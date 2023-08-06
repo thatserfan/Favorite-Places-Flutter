@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
-class AddPlaceScreen extends StatelessWidget {
+class AddPlaceScreen extends StatefulWidget {
   const AddPlaceScreen({super.key});
+
+  @override
+  State<AddPlaceScreen> createState() => _AddPlaceScreenState();
+}
+
+class _AddPlaceScreenState extends State<AddPlaceScreen> {
+  final _titleController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,30 +22,27 @@ class AddPlaceScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Add New Place'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Title',
-                hintStyle: Theme.of(context).textTheme.titleMedium,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              decoration: const InputDecoration(
+                labelText: 'Title',
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
               onPressed: () {},
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add),
-                  SizedBox(width: 10),
-                  Text('Add Place'),
-                ],
-              ))
-        ],
+              icon: const Icon(Icons.add),
+              label: const Text('Add Place'),
+            ),
+          ],
+        ),
       ),
     );
   }
