@@ -1,16 +1,10 @@
 import 'package:favorite_palces/screens/add_place_screen.dart';
+import 'package:favorite_palces/widgets/places_list.dart';
 import 'package:flutter/material.dart';
 
-class PlacesScreen extends StatefulWidget {
+class PlacesScreen extends StatelessWidget {
   const PlacesScreen({super.key});
 
-  @override
-  State<PlacesScreen> createState() {
-    return PlacesScreenState();
-  }
-}
-
-class PlacesScreenState extends State<PlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +22,7 @@ class PlacesScreenState extends State<PlacesScreen> {
           ),
         ],
       ),
+      body: PlacesList(places: []),
     );
   }
 }
