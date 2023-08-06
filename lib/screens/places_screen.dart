@@ -1,3 +1,4 @@
+import 'package:favorite_palces/screens/add_place_screen.dart';
 import 'package:flutter/material.dart';
 
 class PlacesScreen extends StatefulWidget {
@@ -17,7 +18,11 @@ class PlacesScreenState extends State<PlacesScreen> {
         title: const Text("Your Places"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const AddPlaceScreen(),
+              ));
+            },
             icon: const Icon(Icons.add),
             tooltip: 'Add Place',
           ),
