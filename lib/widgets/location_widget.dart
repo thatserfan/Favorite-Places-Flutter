@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:favorite_palces/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +15,7 @@ class LoactionInput extends StatefulWidget {
 }
 
 class _LoactionInputState extends State<LoactionInput> {
-  Location? _pickedLocation;
+  PlaceLocation? _pickedLocation;
   var _isGettingLocation = false;
 
   void _getCurrentLocation() async {
@@ -51,6 +52,10 @@ class _LoactionInputState extends State<LoactionInput> {
     final lat = locationData.latitude;
     final lng = locationData.longitude;
 
+    if (lat == null || lng == null) {
+      return;
+    }
+
     final url = Uri.parse(
         'http://dev.virtualearth.net/REST/v1/Locations/$lat,$lng?key=$keyapi');
 
@@ -62,6 +67,7 @@ class _LoactionInputState extends State<LoactionInput> {
     print(address);
 
     setState(() {
+      _pickedLocation = PlaceLocation(lat: lat!, lng: lng!, address: address);
       _isGettingLocation = false;
     });
   }
