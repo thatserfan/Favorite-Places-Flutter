@@ -18,6 +18,15 @@ class _LoactionInputState extends State<LoactionInput> {
   PlaceLocation? _pickedLocation;
   var _isGettingLocation = false;
 
+  String get locationImage {
+    if (_pickedLocation == null) {
+      return '';
+    }
+    final lat = _pickedLocation!.lat;
+    final lng = _pickedLocation!.lng;
+    return 'https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/$lat,$lng/17?pp=$lat,$lng;37;&mapSize=600,300&key=AqzoIhkb99cryUre2QHyqdXEwblhBnBRPaI4rfTqwOucAtxFwxgt8kHVbeXhArrV';
+  }
+
   void _getCurrentLocation() async {
     Location location = Location();
 
@@ -64,10 +73,8 @@ class _LoactionInputState extends State<LoactionInput> {
     final address = resdata['resourceSets'][0]['resources'][0]['address']
         ['formattedAddress'];
 
-    print(address);
-
     setState(() {
-      _pickedLocation = PlaceLocation(lat: lat!, lng: lng!, address: address);
+      _pickedLocation = PlaceLocation(lat: lat, lng: lng, address: address);
       _isGettingLocation = false;
     });
   }
@@ -81,6 +88,15 @@ class _LoactionInputState extends State<LoactionInput> {
             color: Theme.of(context).colorScheme.onBackground,
           ),
     );
+
+    if (_pickedLocation != null) {
+      previewContent = Image.network(
+        locationImage,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    }
 
     if (_isGettingLocation) {
       previewContent = const CircularProgressIndicator();
