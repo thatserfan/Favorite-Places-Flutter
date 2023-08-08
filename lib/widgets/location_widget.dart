@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 class LoactionInput extends StatefulWidget {
   const LoactionInput({super.key});
@@ -43,6 +45,21 @@ class _LoactionInputState extends State<LoactionInput> {
     });
 
     locationData = await location.getLocation();
+
+    const keyapi =
+        'AqzoIhkb99cryUre2QHyqdXEwblhBnBRPaI4rfTqwOucAtxFwxgt8kHVbeXhArrV';
+    final lat = locationData.latitude;
+    final lng = locationData.longitude;
+
+    final url = Uri.parse(
+        'http://dev.virtualearth.net/REST/v1/Locations/$lat,$lng?key=$keyapi');
+
+    final response = await http.get(url);
+    final resdata = json.decode(response.body);
+    final address = resdata['resourceSets'][0]['resources'][0]['address']
+        ['formattedAddress'];
+
+    print(address);
 
     setState(() {
       _isGettingLocation = false;
