@@ -42,6 +42,7 @@ dependencies:
   location: ^5.0.2+1
   http: ^1.1.0
   flutter_map: ^5.0.0
+  latlong2: ^0.9.0
 
 dev_dependencies:
   flutter_test:
