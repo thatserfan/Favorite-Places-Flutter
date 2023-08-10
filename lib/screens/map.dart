@@ -32,8 +32,6 @@ class MapScreenState extends State<MapScreen> {
     if (mapEvent is MapEventMove ||
         mapEvent is MapEventRotate ||
         mapEvent is MapEventDoubleTapZoom) {
-      // do not flood console with move and rotate events
-      // debug(mapEvent.center.toString());
       final pt1 = _mapController.latLngToScreenPoint(latlong);
       _textPos = Point(pt1.x, pt1.y);
       setState(() {});
@@ -80,7 +78,7 @@ class MapScreenState extends State<MapScreen> {
       _isGettingLocation = false;
       isMarkShow = true;
       latlong = LatLng(lat, lng);
-      _mapController.move(LatLng(lat, lng), 15);
+      _mapController.move(LatLng(lat, lng), 17);
     });
   }
 
@@ -96,6 +94,12 @@ class MapScreenState extends State<MapScreen> {
       ),
       appBar: AppBar(
         title: const Text('Pick Your Place Location'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.check_rounded),
+          ),
+        ],
       ),
       body: Stack(
         children: [
