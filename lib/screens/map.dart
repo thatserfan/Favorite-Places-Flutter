@@ -14,8 +14,9 @@ class MapScreen extends StatefulWidget {
 
 class MapScreenState extends State<MapScreen> {
   late final MapController _mapController;
-
   Point<double> _textPos = const Point(10, 10);
+  var latlong = const LatLng(31.994335, 54.269765);
+  bool isMarkShow = false;
 
   @override
   void initState() {
@@ -24,27 +25,31 @@ class MapScreenState extends State<MapScreen> {
   }
 
   void onMapEvent(MapEvent mapEvent) {
-    if (mapEvent is! MapEventMove && mapEvent is! MapEventRotate) {
+    if (mapEvent is MapEventMove ||
+        mapEvent is MapEventRotate ||
+        mapEvent is MapEventDoubleTapZoom) {
       // do not flood console with move and rotate events
       // debug(mapEvent.center.toString());
+      final pt1 = _mapController.latLngToScreenPoint(latlong);
+      _textPos = Point(pt1.x, pt1.y);
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var latlong = const LatLng(31.994335, 54.269765);
-
-    return Stack(
-      children: [
-        Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.location_on),
-          ),
-          appBar: AppBar(
-            title: const Text('Pick Your Place Location'),
-          ),
-          body: FlutterMap(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        onPressed: () {},
+        child: const Icon(Icons.location_on),
+      ),
+      appBar: AppBar(
+        title: const Text('Pick Your Place Location'),
+      ),
+      body: Stack(
+        children: [
+          FlutterMap(
             mapController: _mapController,
             options: MapOptions(
               center: const LatLng(31.994335, 54.269765),
@@ -54,6 +59,8 @@ class MapScreenState extends State<MapScreen> {
                 final pt1 = _mapController.latLngToScreenPoint(latLng);
                 _textPos = Point(pt1.x, pt1.y);
                 setState(() {
+                  print(latLng);
+                  isMarkShow = true;
                   latlong = latLng;
                 });
               },
@@ -65,19 +72,19 @@ class MapScreenState extends State<MapScreen> {
               ),
             ],
           ),
-        ),
-        Positioned(
-          left: _textPos.x.toDouble() - 22,
-          top: _textPos.y.toDouble() + 60,
-          width: 20,
-          height: 20,
-          child: const Icon(
-            Icons.location_on,
-            color: Colors.red,
-            size: 50,
-          ),
-        )
-      ],
+          Positioned(
+            left: _textPos.x.toDouble() - 22,
+            top: _textPos.y.toDouble() - 40,
+            width: 20,
+            height: 20,
+            child: Icon(
+              Icons.location_on,
+              color: isMarkShow ? Colors.red : Colors.transparent,
+              size: 50,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
