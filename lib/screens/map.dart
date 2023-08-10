@@ -103,6 +103,8 @@ class MapScreenState extends State<MapScreen> {
             mapController: _mapController,
             options: MapOptions(
               center: latlong,
+              maxZoom: 18,
+              minZoom: 4,
               zoom: 6,
               onMapEvent: onMapEvent,
               onLongPress: (tapPos, latLng) {
