@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -71,22 +69,12 @@ class MapScreenState extends State<MapScreen> {
 
     locationData = await location.getLocation();
 
-    const keyapi =
-        'AqzoIhkb99cryUre2QHyqdXEwblhBnBRPaI4rfTqwOucAtxFwxgt8kHVbeXhArrV';
     final lat = locationData.latitude;
     final lng = locationData.longitude;
 
     if (lat == null || lng == null) {
       return;
     }
-
-    final url = Uri.parse(
-        'http://dev.virtualearth.net/REST/v1/Locations/$lat,$lng?key=$keyapi');
-
-    final response = await http.get(url);
-    final resdata = json.decode(response.body);
-    final address = resdata['resourceSets'][0]['resources'][0]['address']
-        ['formattedAddress'];
 
     setState(() {
       _isGettingLocation = false;
@@ -102,7 +90,9 @@ class MapScreenState extends State<MapScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.background,
         onPressed: _getCurrentLocation,
-        child: const Icon(Icons.location_on),
+        child: _isGettingLocation
+            ? const CircularProgressIndicator()
+            : const Icon(Icons.location_on),
       ),
       appBar: AppBar(
         title: const Text('Pick Your Place Location'),
@@ -119,7 +109,6 @@ class MapScreenState extends State<MapScreen> {
                 final pt1 = _mapController.latLngToScreenPoint(latLng);
                 _textPos = Point(pt1.x, pt1.y);
                 setState(() {
-                  print(latLng);
                   isMarkShow = true;
                   latlong = latLng;
                 });
