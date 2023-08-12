@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:favorite_palces/models/place.dart';
 import 'package:favorite_palces/providers/user_places.dart';
 import 'package:favorite_palces/widgets/image_input.dart';
@@ -22,7 +21,9 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   void _savePalce() {
     final enteredText = _titleController.text;
 
-    if (enteredText.trim().isEmpty || _selectedImage == null || _selectedLocation == null) {
+    if (enteredText.trim().isEmpty ||
+        _selectedImage == null ||
+        _selectedLocation == null) {
       return;
     }
 

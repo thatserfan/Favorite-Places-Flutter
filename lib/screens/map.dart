@@ -17,7 +17,7 @@ class MapScreenState extends State<MapScreen> {
   late final MapController _mapController;
 
   Point<double> _textPos = const Point(10, 10);
-  var latlong = const LatLng(31.994335, 54.269765);
+  var _latlong = const LatLng(0, 0);
 
   bool isMarkShow = false;
   bool _isGettingLocation = false;
@@ -32,7 +32,7 @@ class MapScreenState extends State<MapScreen> {
     if (mapEvent is MapEventMove ||
         mapEvent is MapEventRotate ||
         mapEvent is MapEventDoubleTapZoom) {
-      final pt1 = _mapController.latLngToScreenPoint(latlong);
+      final pt1 = _mapController.latLngToScreenPoint(_latlong);
       _textPos = Point(pt1.x, pt1.y);
       setState(() {});
     }
@@ -77,7 +77,7 @@ class MapScreenState extends State<MapScreen> {
     setState(() {
       _isGettingLocation = false;
       isMarkShow = true;
-      latlong = LatLng(lat, lng);
+      _latlong = LatLng(lat, lng);
       _mapController.move(LatLng(lat, lng), 17);
     });
   }
@@ -96,7 +96,9 @@ class MapScreenState extends State<MapScreen> {
         title: const Text('Pick Your Place Location'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop(_latlong);
+            },
             icon: const Icon(Icons.check_rounded),
           ),
         ],
@@ -106,7 +108,7 @@ class MapScreenState extends State<MapScreen> {
           FlutterMap(
             mapController: _mapController,
             options: MapOptions(
-              center: latlong,
+              center: _latlong,
               maxZoom: 18,
               minZoom: 4,
               zoom: 6,
@@ -116,7 +118,7 @@ class MapScreenState extends State<MapScreen> {
                 _textPos = Point(pt1.x, pt1.y);
                 setState(() {
                   isMarkShow = true;
-                  latlong = latLng;
+                  _latlong = latLng;
                 });
               },
             ),

@@ -1,4 +1,5 @@
 import 'package:favorite_palces/screens/map.dart';
+import 'package:favorite_palces/screens/places_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
       title: 'Great Places',
       theme: theme,
       // home: const PlacesScreen(),
-      home: const MapScreen(),
+      home: const PlacesScreen(),
     );
   }
 }
