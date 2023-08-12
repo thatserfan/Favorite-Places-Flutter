@@ -1,4 +1,3 @@
-import 'package:favorite_palces/screens/map.dart';
 import 'package:favorite_palces/screens/places_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
